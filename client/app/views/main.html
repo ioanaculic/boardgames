@@ -1,0 +1,52 @@
+<div class="row row-offcanvas row-offcanvas-right" ng-controller="MainController as store">
+    <div class="col-xs-12 col-sm-9">
+      <p class="pull-right visible-xs">
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle</button>
+      </p>    
+      <div class="row">
+        <div class="col-6 col-sm-6 col-lg-4" ng-repeat="game in store.items">
+          <h2>{{game.name}}</h2>
+          <p><span class="label label-default" ng-repeat="theme in game.theme">{{theme}}</span></p>
+          <img ng-src="images/{{game.name}}.jpg" width="150" height="150"/>
+              <!--label-success/info/warning-->
+          <p>Dificultate: <span ng-class="store.getDifficultyLabel(game.difficulty)">{{game.difficulty}}</span></p>
+          <h4>{{game.price}} lei</h4>
+          <p><button class="btn btn-default" ng-click="store.addToCart(game)">Adauga la cos</button></p>
+        </div><!--/span-->
+             
+      </div><!--/row-->
+    </div><!--/span-->
+ 
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+      <form method="get" ng-submit="store.filter()">
+            <!-- <font size="4" color="#088A08" type="bold" face="arial"> -->
+        <p>Dificultate:
+          <select name="complexitate" ng-options="difficulty for difficulty in store.difficulties" ng-model="store.selectedDifficulty">
+            <option value="" selected="selected">Oricare</option>
+          </select>
+        </p>
+            <!-- <font color="#380B61"> -->
+        <p>Thema:
+            <!-- </font> -->
+          <select name="categoria" ng-options="theme for theme in store.themes" ng-model="store.selectedTheme">
+            <option value="" selected="selected">Oricare</option>
+          </select>
+        </p>
+        <p>Jucatori:
+            <!-- </font> -->
+          <select name="players" ng-options="player.name for player in store.players" ng-model="store.selectedPlayer">
+            <option value="" selected="selected">Oricare</option>
+          </select>
+        </p>
+        <p><input TYPE="submit" value="Filtreaza" class="btn btn-default"/></p>
+            <!-- </font> -->
+      </form>
+      <hr>
+      <h2>Cosul meu</h2>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="item in store.cart">{{item.quantity}}x {{item.name}}<span class="badge pull-right">{{item.price*item.quantity}}lei</span><span class="label label-danger" ng-click="store.remove(item)">X</span></li>
+        </ul>
+        <h4>Total {{store.getTotalCart()}} lei</h4>
+        <a class="btn btn-default" href="#cart/{{store.userId}}">Vezi cosul</a>
+    </div><!--/span-->
+  </div>
