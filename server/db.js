@@ -48,12 +48,21 @@ var User = mongoose.model ('User', userSchema);
 var Item = mongoose.model ('Item', itemSchema);
 
 
-function getUser (username, cb)
+function getUser (userId, cb)
 {
-	User.findOne ({username: username}, function (err, doc){
+	User.findOne ({_id: userId}, function (err, doc){
 		if (err)
-			debug ('Cannot get user with username '+username+' '+err);
+			debug ('Cannot get user with userId '+userId+' '+err);
 		cb (err, doc);
+	});
+}
+
+function getUsers (cb)
+{
+	User.find ({}, function (err, users){
+		if (err)
+			debug ('Cannot get all users ' + err);
+		cb (err, users);
 	});
 }
 
@@ -62,6 +71,7 @@ function addUser (user, cb)
 	user.items = [];
 	user.cart = [];
 	var dbUser = new User (user);
+	debug ('Saving '+dbUser);
 	dbUser.save (function (err, user){
 		if (err)
 			debug ('Cannot add user '+err);
@@ -71,7 +81,9 @@ function addUser (user, cb)
 
 function addItem (item, cb)
 {
+	console.log(item);
 	var dbItem = new Item (item);
+	console.log(dbItem);
 	dbItem.save (function (err){
 		if (err)
 			debug ('Cannot add item '+err);
@@ -226,6 +238,7 @@ module.exports = function (cb)
 }
 
 module.exports.addUser = addUser;
+module.exports.addItem = addItem;
 module.exports.addItemToBasket = addItemToBasket;
 module.exports.addItemsToBasket = addItemsToBasket;
 module.exports.getCart = getCart;
@@ -233,6 +246,7 @@ module.exports.getItemsByCriteria = getItemByCriteria;
 module.exports.getItemById = getItemById;
 module.exports.getItemByName = getItemByName;
 module.exports.getUser = getUser;
+module.exports.getUsers = getUsers;
 module.exports.difficulties = difficulties;
 module.exports.removeItemFromBasket = removeItemFromBasket;
 module.exports.themes = themes;

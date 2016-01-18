@@ -1,7 +1,8 @@
 'use strict'
 var express = require ('express'),
 	crypto = require ('crypto'),
-	db = require ('../db.js');
+	db = require ('../db.js'),
+  path = require ('path');
 
 var router = express.Router();
 
@@ -25,7 +26,7 @@ router.post ('/add_user', function (req, res){
   var passHash = crypto.createHash('sha256').update(req.body.password, 'utf8').digest('hex');
   var user = {
     username  : req.body.username,
-    name      : req.body.userName,
+    name      : req.body.name,
     address   : req.body.address,
     phone     : req.body.phone,
     password  : passHash
@@ -35,6 +36,15 @@ router.post ('/add_user', function (req, res){
       res.status (200).send ({status: 'error'});
     else
       res.status (200).send ({status: 'done', user: user});
+  });
+});
+
+router.post ('/add_item', function (req, res){
+  db.addItem (req.body.item, function (err){
+    if (err)
+      res.status (200).send ({status: 'error'});
+    else
+      res.status (200).send ({status: 'done'});
   });
 });
 
@@ -98,6 +108,28 @@ router.post ('/put_order', function (req, res){
       res.status (200).send ({status: 'error'});
     else
       res.status (200).send ({status: 'done'});
+  });
+});
+
+router.get ('/admin', function (req, res){
+  res.sendFile (path.join (__dirname+'/../../client/app/admin.html'));
+});
+
+router.get ('/get_users', function (req, res){
+  db.getUsers (function (err, users){
+    if (err)
+      res.status (200).send ({status: 'error'});
+    else
+      res.status (200).send ({status: 'done', users: users});
+  });
+});
+
+router.post ('/get_user', function (req, res){
+  db.getUser (req.body.userId, function (err, user){
+    if (err)
+      res.status (200).send ({status: 'error'});
+    else
+      res.status (200).send ({status: 'done', user: user});
   });
 });
 

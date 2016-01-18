@@ -1,0 +1,6 @@
+<div ng-controller="AdminUsersController as admin">
+	<div ng-repeat="user in admin.users">
+    	<b>{{user.username}}</b>
+    	<p ng-repeat="item in user.cart">{{item.quantity}}X {{item.name}}</p>
+	</div>
+</div>

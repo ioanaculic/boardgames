@@ -3,7 +3,6 @@
 angular.module('clientApp')
   .controller('MainController', function ($http, $location, $routeParams) {
 
-
   	this.difficulties = [];
   	this.themes = [];
   	this.players = [{name:'1', id: 1}, {name: '2', id: 2}, {name: '3', id: 3}, {name: '4+', id:4}];
@@ -13,10 +12,19 @@ angular.module('clientApp')
     this.selectedDifficulty = null;
     this.selectedTheme = null;
     this.selectedPlayer = null;
+    this.userName = null;
 
     var store = this;
 
     this.userId = $routeParams.userId;
+
+    this.hasUser = function ()
+    {
+      if (store.userId)
+        return true;
+      else
+      return false;
+    }
 
     this.updateCart = function ()
     {
@@ -48,7 +56,6 @@ angular.module('clientApp')
                     price: item.price,
                     quantity: quantity,
                     _id: item._id};
-        console.log(item);
         $http.post ('order', {item: item, userId: store.userId}).success (function (data){
           store.updateCart();
         });
@@ -74,9 +81,11 @@ angular.module('clientApp')
 
     this.filter = function ()
     {
-      $http.post ('filter', {difficulty: store.selectedDifficulty,
-                             theme: store.selectedTheme,
-                             players: store.selectedPlayer.id})
+      var filer = {difficulty : store.selectedDifficulty,
+                   theme      : store.selectedTheme};
+      if (store.selectedPlayer)
+        filer.players = store.selectedPlayer.id;
+      $http.post ('filter', filter)
                   .success (function (data){
                     store.items = data.items;
                   });
@@ -105,6 +114,13 @@ angular.module('clientApp')
     $http.get ('get_themes'). success (function (data){
       store.themes = data.themes;
     });
+
+    if (this.userId)
+    {
+      $http.post ('get_user', {userId: this.userId}). success (function (data){
+        store.userName = data.user.name;
+      });
+    }
 
     this.updateCart();
 

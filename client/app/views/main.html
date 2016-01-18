@@ -21,20 +21,20 @@
       <form method="get" ng-submit="store.filter()">
             <!-- <font size="4" color="#088A08" type="bold" face="arial"> -->
         <p>Dificultate:
-          <select name="complexitate" ng-options="difficulty for difficulty in store.difficulties" ng-model="store.selectedDifficulty">
+          <select ng-options="difficulty for difficulty in store.difficulties" ng-model="store.selectedDifficulty">
             <option value="" selected="selected">Oricare</option>
           </select>
         </p>
             <!-- <font color="#380B61"> -->
         <p>Thema:
             <!-- </font> -->
-          <select name="categoria" ng-options="theme for theme in store.themes" ng-model="store.selectedTheme">
+          <select ng-options="theme for theme in store.themes" ng-model="store.selectedTheme">
             <option value="" selected="selected">Oricare</option>
           </select>
         </p>
         <p>Jucatori:
             <!-- </font> -->
-          <select name="players" ng-options="player.name for player in store.players" ng-model="store.selectedPlayer">
+          <select ng-options="player.name for player in store.players" ng-model="store.selectedPlayer">
             <option value="" selected="selected">Oricare</option>
           </select>
         </p>
@@ -42,7 +42,7 @@
             <!-- </font> -->
       </form>
       <hr>
-      <h2>Cosul meu</h2>
+      <h2>Cosul meu</h2><label class="label label-success" ng-show="store.hasUser()">{{store.userName}}</label>
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="item in store.cart">{{item.quantity}}x {{item.name}}<span class="badge pull-right">{{item.price*item.quantity}}lei</span><span class="label label-danger" ng-click="store.remove(item)">X</span></li>
         </ul>

@@ -1,0 +1,30 @@
+<div ng-controller="AdminController as admin">
+<form ng-submit="admin.add()">
+    <p>Nume joc: <input type="text" ng-model="admin.gameName" required></p>
+    <p>Pret: <input type="text" ng-model="admin.price" required> Lei</p>
+    <p>Cantitate: <input type="text" ng-model="admin.quantity" required></p>
+
+    <p>Dificultate:
+        <select ng-options="difficulty for difficulty in admin.difficulties" ng-model="admin.selectedDifficulty" required>
+            <option value="" selected="selected">Oricare</option>
+        </select>
+    </p>
+
+    <p>Thema:
+        <select ng-options="theme for theme in admin.themes" ng-model="admin.selectedTheme1" required>
+            <option value="" selected="selected">Oricare</option>
+        </select>
+        <select ng-options="theme for theme in admin.themes" ng-model="admin.selectedTheme2">
+            <option value="" selected="selected">Oricare</option>
+        </select>
+        <select ng-options="theme for theme in admin.themes" ng-model="admin.selectedTheme3">
+            <option value="" selected="selected">Oricare</option>
+        </select>
+    </p>
+
+    <p>Numar minim jucatori: <input type="text" ng-model="admin.minPlayers" required></p>
+    <p>Numar maxim jucatori: <input type="text" ng-model="admin.maxPlayers" required></p>
+<p><input TYPE="submit" value="Adauga" class="btn btn-success"/></p>
+</form>
+<a href="#/admin_users" class="btn btn-success">Vezi utilizatori</a>
+</div>
