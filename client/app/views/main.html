@@ -11,7 +11,7 @@
               <!--label-success/info/warning-->
           <p>Dificultate: <span ng-class="store.getDifficultyLabel(game.difficulty)">{{game.difficulty}}</span></p>
           <h4>{{game.price}} lei</h4>
-          <p><button class="btn btn-default" ng-click="store.addToCart(game)">Adauga la cos</button></p>
+          <p><button class="btn btn-default" ng-click="store.addToCart(game)" ng-disabled="!store.canOrder(game)">Adauga la cos</button></p>
         </div><!--/span-->
              
       </div><!--/row-->
@@ -44,7 +44,7 @@
       <hr>
       <h2>Cosul meu</h2><label class="label label-success" ng-show="store.hasUser()">{{store.userName}}</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="item in store.cart">{{item.quantity}}x {{item.name}}<span class="badge pull-right">{{item.price*item.quantity}}lei</span><span class="label label-danger" ng-click="store.remove(item)">X</span></li>
+          <li class="list-group-item" ng-repeat="item in store.cart">{{item.quantity}}x {{item.name}}<span class="badge my-price">{{item.price*item.quantity}}lei</span><span class="label label-danger" ng-click="store.remove(item)">X</span></li>
         </ul>
         <h4>Total {{store.getTotalCart()}} lei</h4>
         <a class="btn btn-default" href="#cart/{{store.userId}}">Vezi cosul</a>

@@ -203,19 +203,51 @@ function addItemsToBasket (userId, cb)
 		}
 		else
 		{
-			User.update({_id: userId}, {'$pushAll': {cart: user.items}}, function (err){
-				if (err)
-				{
-					debug ('Cannot add items to cart '+err);
-					cb (err);
-				}
-				else
-					User.update ({_id: userId}, {'$set': {items: []}}, function (err){
-						if (err)
-							debug ('Cannot empty items '+err );
+			function uploader (i) {
+		    if( i < user.items.length ) 
+		  	{
+			    Item.findOne ({_id: user.items[i]._id}, function (err, item){
+			    	if (err)
+			    	{
+			    		debug (err);
+			    		cb (err);
+			    	}
+			    	else
+			    	{
+			    		if (item.quantity > 0)
+			    		{
+			    			Item.update ({_id: user.items[i]._id}, {quantity: item.quantity-1}, function (err){
+			    				if (err)
+			    				{
+			    					debug (err);
+			    					cb (0, 1);
+			    				}
+			    				else
+			    					uploader (i+1);
+			    			});
+			    		}
+			    		
+			    	}
+			    });
+			  }
+			  else
+			  {
+			  	User.update({_id: userId}, {'$pushAll': {cart: user.items}}, function (err){
+					if (err)
+					{
+						debug ('Cannot add items to cart '+err);
 						cb (err);
-					});
-			});
+					}
+					else
+						User.update ({_id: userId}, {'$set': {items: []}}, function (err){
+							if (err)
+								debug ('Cannot empty items '+err );
+							cb (err);
+						});
+				});
+			  }
+			};
+			uploader(0);
 		}
 	});
 }

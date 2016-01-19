@@ -108,6 +108,13 @@ angular.module('clientApp')
   			return 'label label-warning';
   	}
 
+    this.canOrder = function (item)
+    {
+      if (item.quantity > 0)
+        return true;
+      return false;
+    }
+
     //initialisations
 
     $http.get ('get_items').success (function (data){
