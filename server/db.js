@@ -57,6 +57,15 @@ function getUser (userId, cb)
 	});
 }
 
+function getUserByUsername (username, cb)
+{
+	User.findOne ({username: username}, function (err, doc){
+		if (err)
+			debug ('Cannot get user with username '+username+' '+err);
+		cb (err, doc);
+	});
+}
+
 function getUsers (cb)
 {
 	User.find ({}, function (err, users){
@@ -81,9 +90,7 @@ function addUser (user, cb)
 
 function addItem (item, cb)
 {
-	console.log(item);
 	var dbItem = new Item (item);
-	console.log(dbItem);
 	dbItem.save (function (err){
 		if (err)
 			debug ('Cannot add item '+err);
@@ -155,6 +162,15 @@ function addItemToBasket (item, userId, cb)
 	});
 }
 
+function updateItem (item, cb)
+{
+	Item.update ({_id: item._id}, item, function (err){
+		if (err)
+			debug ('Cannot update item '+err);
+		cb (err);
+	})
+}
+
 function removeItemFromBasket (userId, item, cb)
 {
 	User.update ({_id: userId}, {'$pull': {items: {_id: item._id}}}, function (err){
@@ -204,6 +220,15 @@ function addItemsToBasket (userId, cb)
 	});
 }
 
+function removeItem (itemId, cb)
+{
+	Item.remove ({_id: itemId}, function (err){
+		if (err)
+			debug ('Cannot remove item '+err);
+		cb (err);
+	});
+}
+
 
 module.exports = function (cb)
 //function initDb ()
@@ -246,8 +271,11 @@ module.exports.getItemsByCriteria = getItemByCriteria;
 module.exports.getItemById = getItemById;
 module.exports.getItemByName = getItemByName;
 module.exports.getUser = getUser;
+module.exports.getUserByUsername = getUserByUsername;
 module.exports.getUsers = getUsers;
 module.exports.difficulties = difficulties;
 module.exports.removeItemFromBasket = removeItemFromBasket;
+module.exports.removeItem = removeItem;
 module.exports.themes = themes;
+module.exports.updateItem = updateItem;
 

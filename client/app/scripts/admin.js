@@ -24,6 +24,9 @@ var app = angular.module('adminApp', [
       .when ('/admin_users', {
         templateUrl: 'views/admin_users.html'
       })
+      .when ('/admin_edit', {
+        templateUrl: 'views/admin_edit.html'
+      })
       .otherwise ({
         templateUrl: 'views/admin_login.html'
       })

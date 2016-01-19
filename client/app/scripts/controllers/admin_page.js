@@ -15,11 +15,13 @@ angular.module('adminApp')
   	var admin = this;
 
     $http.get ('get_difficulties'). success (function (data){
-      admin.difficulties = data.difficulties;
+      if (data.status == 'done')
+        admin.difficulties = data.difficulties;
     });
 
     $http.get ('get_themes'). success (function (data){
-      admin.themes = data.themes;
+      if (data.status == 'done')
+        admin.themes = data.themes;
     });
 
     this.add = function ()

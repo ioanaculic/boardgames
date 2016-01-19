@@ -18,7 +18,10 @@ angular.module('clientApp')
     this.remove = function (item)
     {
       $http.post ('remove_cart', {userId: cart.userId, item: item}).success (function (data){
-        cart.updateCart();
+        if (data.status == 'done')
+          cart.updateCart();
+        else
+          alert ('Stergerea a esuat.');
       });
     }
 
@@ -35,15 +38,18 @@ angular.module('clientApp')
     this.updateCart = function ()
     {
       $http.post ('get_cart', {userId: cart.userId}). success (function (data){
-        cart.items = data.cart;
+        if (data.status == 'done')
+          cart.items = data.cart;
       });
     }
 
     this.placeOrder = function ()
     {
-      console.log('order');
       $http.post('put_order', {userId: cart.userId}). success (function (data){
-        $location.path('done')
+        if (data.status == 'done')
+          $location.path('done')
+        else
+          alert ('Comanda nu a putut fi plasata.');
       });
     }
 

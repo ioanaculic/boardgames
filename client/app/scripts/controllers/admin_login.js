@@ -7,13 +7,16 @@ angular.module('adminApp')
 
   	this.login = function ()
   	{
-      console.log('login');
+      console.log(admin.password);
   		$http.post ('login', {username: admin.username, password: admin.password})
   		.success (function (data){
-  			if (!data.user || !data.user.admin)
-  				alert('not admin');
-  			else
-  				$location.path('admin_page');
+        if (data.status == 'done')
+    			if (!data.user || !data.user.admin)
+    				alert('Nu aveti drept de administrator');
+    			else
+    				$location.path('admin_page');
+        else
+          alert ('Autentificarea a esuat');
   		});
   	}
   });

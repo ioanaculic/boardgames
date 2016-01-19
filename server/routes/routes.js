@@ -8,7 +8,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.post('/login', function (req, res, next){
-  db.getUser (req.body.username, function (err, user){
+  db.getUserByUsername (req.body.username, function (err, user){
   	if (!err && user)
   	{
   		var hash = crypto.createHash('sha256').update(req.body.password, 'utf8').digest('hex');
@@ -76,6 +76,15 @@ router.post ('/order', function (req, res){
   });
 });
 
+router.post ('/remove_item', function (req, res){
+  db.removeItem (req.body.itemId, function (err){
+    if (err)
+      res.status (200).send ({status: 'error'});
+    else
+      res.status (200).send ({status: 'done'});
+  });
+});
+
 router.get ('/get_difficulties', function (req, res){
   res.status (200).send ({status: 'done', difficulties: db.difficulties});
 });
@@ -130,6 +139,24 @@ router.post ('/get_user', function (req, res){
       res.status (200).send ({status: 'error'});
     else
       res.status (200).send ({status: 'done', user: user});
+  });
+});
+
+router.post ('/get_item', function (req, res){
+  db.getItemByName (req.body.name, function (err, item){
+    if (err)
+      res.status (200).send ({status: 'error'});
+    else
+      res.status (200).send ({status: 'done', item: item});
+  })
+});
+
+router.post ('/update_item', function (req, res){
+  db.updateItem (req.body.item, function (err){
+    if (err)
+      res.status (200).send ({status: 'error'});
+    else
+      res.status (200).send ({status: 'done'});
   });
 });
 

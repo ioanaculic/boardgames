@@ -30,7 +30,8 @@ angular.module('clientApp')
     {
       if (store.userId)
         $http.post ('get_cart', {userId: store.userId}). success (function (data){
-          store.cart = data.cart;
+          if (data.status == 'done')
+            store.cart = data.cart;
         });
     }
 
@@ -57,7 +58,10 @@ angular.module('clientApp')
                     quantity: quantity,
                     _id: item._id};
         $http.post ('order', {item: item, userId: store.userId}).success (function (data){
-          store.updateCart();
+          if (data.status == 'done')
+            store.updateCart();
+          else
+            alert ('Produsul nu a putut fi adaugat in cos.');
         });
       }
     }
@@ -65,7 +69,10 @@ angular.module('clientApp')
     this.remove = function (item)
     {
       $http.post ('remove_cart', {userId: store.userId, item: item}).success (function (data){
-        store.updateCart();
+        if (data.status == 'done')
+          store.updateCart();
+        else
+          alert ('Produsul nu a putut fi sters din cos.');
       });
     }
 

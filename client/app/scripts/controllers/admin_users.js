@@ -6,7 +6,7 @@ angular.module('adminApp')
       var admin = this;
 
       $http.get ('get_users'). success (function (data){
-        admin.users = data.users;
-        console.log(admin.users);
+      	if (data.status == 'done')
+        	admin.users = data.users;
       });
   });

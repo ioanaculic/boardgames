@@ -3,8 +3,8 @@
     <tr ng-show="user.create"><td>Nume: </td><td><input type="text" ng-model="user.lastname"></td></tr>
     <tr ng-show="user.create"><td>Prenume: </td><td><input type="text" ng-model="user.firstname"></td></tr>
     <tr ng-show="user.create"><td>Adresa: </td><td><input type="text" ng-model="user.address"></td></tr>
-    <tr ng-show="user.create"><td>Telefon: </td><td><input type="text" ng-model="user.phone"></td></tr>
-    <tr><td>Parola: </td><td><input type="text" ng-model="user.password"></td></tr>
+    <tr ng-show="user.create"><td>Telefon: </td><td><input type="tel" ng-model="user.phone"></td></tr>
+    <tr><td>Parola: </td><td><input type="password" ng-model="user.password"></td></tr>
     <tr>
     	<td ng-show="user.create"><button class="btn btn-success" ng-click="user.addUser()">Creaza cont</button></td>
     	<td ng-show="!user.create"><button class="btn btn-success" ng-click="user.login()">Autentificare</button></td>
